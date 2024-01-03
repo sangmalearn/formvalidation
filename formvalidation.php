@@ -23,7 +23,7 @@
     $email = clean($_POST['email']);
     $gender = clean($_POST['gender'] ?? null);
     $skills = $_POST['skill'] ?? null;
-    $country = $_POST['county'] ?? null;
+    $country = clean($_POST['country']) ?? null;
     // file upload start
     $fileName = $_FILES['file']['name'];
     $fileTmpName = $_FILES['file']['tmp_name'];
@@ -76,7 +76,9 @@
     }
     if(empty($gender)){
         $genderErr = "Please select your gender";
-    } 
+    } else {
+        $crgender = $gender;
+    }
     if(empty($skills)){
         $skillErr = "Plese select your skill";
 
@@ -109,7 +111,7 @@
                     <div class="invalid-feedback"><?= $emailErr ?? null ?></div>
                     <div class="valid-feedback"><?= $cremail ?? null ?></div>                   
                 </div>
-                <div class="py-3 border rounded shadow-sm <?= isset($genderErr) ? 'border-danger' : null ?><?= isset($gender) ? 'border-success' : null ?>">
+                <div class="py-3 border rounded shadow-sm <?= isset($genderErr) ? 'border-danger' : null ?><?= isset($crgender) ? 'border-success' : null ?>">
                     <div for="" class="form-check form-check-inline">
                         <label class="form-check-label">Gender : </label>
                     </div>
@@ -165,30 +167,23 @@
 
 
                     </div>
-                    <div class="border py-3 rounded shadow-sm <?= isset($countryErr) ? 'border-danger' : (isset($crcountry) ? 'border-success' : null) ?>">
-                        <div for="" class="form-check form-check-inline">
-                            <label class="form-label">Country : </label>
-                        </div>
-                        <div for="" class="from-check form-check-inline">
-                            <input list="datalistOptions" class="form-control" id="country" name="country" placeholder="Select your country">
-                            <datalist id="datalistOptions">
-                                <option value="Bangladesh" <?= isset($crcountry) && in_array('Bangladesh', $crcountry) ? $crcountry : null ?>>
-                                <option value="India">
-                                <option value="Nepal">
-                                <option value="Bhutan">
-                                <option value="Thailand">
-                            </datalist>
-                        </div>
-
+                    <div class="py-3 px-4  border rounded shadow-sm <?= isset($countryErr) ? 'border-danger' : (isset($crcountry) ? 'border-success' : null) ?>">
+                        <label for="" class="me-3">Country : </label>                         
+                        <select id="" name="country" class="form-select-sm">
+                            <option value="">--Select Country</option>
+                            <option value="Bangladesh" <?= isset($crcountry) && $crcountry == 'Bangladesh' ? 'selected' : null ?>>Bangladesh</option>
+                            <option value="India" <?= isset($crcountry) && $crcountry == 'India' ? : null ?> >India</option>
+                            <option value="Nepal" <?= isset($crcountry) && $crcountry == 'Nepal' ? : null ?>>Nepal</option>
+                            <option value="Bhutan" <?= isset($crcountry) && $crcountry == 'Bhutan' ? : null ?>>Bhutan</option>
+                            <option value="Thailand" <?= isset($crcountry) && $crcountry == 'Thailand' ? : null ?>>Thaniland</option>
+                        </select> 
                     </div>
-                    <div class="mb-3 <?= isset($countryErr) ? 'text-danger' : (isset($crcountry) ? 'text-success' : null) ?>">
-                     <?= $countryErr ?? null ?>
+                    <div class="mb-3 <?= isset($countryErr) ? 'text-danger' : (isset($country) ? 'text-success' : null) ?>">
+                     <?= $countryErr ?? null ?><?= $crcountry ?? null ?>
                     </div>
-                  <div class="border py-3 rounded shadow-sm <?= isset($fileNameErr) ? 'border-danger' : (isset($fileName) ? 'border-success' : null) ?>">
-                        <div for="" class="form-check form-check-inline">
-                            <label for="" class="form-label">Upoload your photo :</label>
-                            <input type="file" name="file">
-                        </div>
+                  <div class="px-4 py-3 border rounded shadow-sm <?= isset($fileNameErr) ? 'border-danger' : (isset($fileName) ? 'border-success' : null) ?>">
+                    <label for="" class="me-3">Upoload your photo :</label>
+                    <input type="file" name="file">
                   </div>   
                     <div class="mb-3 <?= isset($fileNameErr) ? 'text-danger' : (isset($fileName) ? 'text-success' : null ) ?>">
                             <?= $fileNameErr ?? null ?><?= $fileUploadSucc ?? null ?>
