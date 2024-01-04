@@ -24,6 +24,8 @@
     $gender = clean($_POST['gender'] ?? null);
     $skills = $_POST['skill'] ?? null;
     $country = clean($_POST['country']) ?? null;
+    $pass = clean($_POST['pass']) ?? null;
+    $cpass = clean($_POST['cpass']) ?? null;
     // file upload start
     $fileName = $_FILES['file']['name'];
     $fileTmpName = $_FILES['file']['tmp_name'];
@@ -90,6 +92,22 @@
 
     } else {
         $crcountry = $country;
+    }
+    if(empty($pass)){
+        $passErr = "Password is required";
+    } elseif (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@$%^&*]).{8,}$/", $pass)){
+        $passErr = "Password must be 8 charecters long and contain at least one uppercase letter, one lowercase letter, one digit and one special character";
+      
+    } else {
+        $crPass = $pass;
+    }
+
+    if(empty($cpass)){
+        $cpassErr = "Confirm password is required";
+    } elseif ($pass != $cpass) {
+        $cpassErr = "Password and confirm password not matched";   
+    } else {
+        $crCpass = $cpass;
     }
     
     
@@ -187,7 +205,20 @@
                   </div>   
                     <div class="mb-3 <?= isset($fileNameErr) ? 'text-danger' : (isset($fileName) ? 'text-success' : null ) ?>">
                             <?= $fileNameErr ?? null ?><?= $fileUploadSucc ?? null ?>
-                    </div>     
+                    </div>  
+                    <div class="form-floating MB-3  <?= isset($passErr) ? 'border-danger' : (isset($pass) ? 'border-scccess' : null) ?>">
+                        <input type="password" name="pass" placeholder="Password" class="form-control <?= isset($passErr) ? 'is-invalid' : (isset($pass) ? 'is-valid' : null) ?>">
+                        <label for="">Password: </label>
+                        <div class="invalid-feedback"><?= $passErr ?></div>
+                        <div class="valid-feedback"><?= password_hash($crPass, PASSWORD_BCRYPT) ?></div>                        
+                    </div> 
+                    <div class="md-3 form-floating">
+                        <input type="password" name="cpass" placeholder="Confirm Password" class="form-control <?= isset($cpassErr) ? 'is-invalid' : (isset($crCpass) ? 'is-valid' : null) ?>">
+                        <label for="">Confirm Password</label>
+                        <div class="valid-feedback"><?= password_hash($crCpass, PASSWORD_BCRYPT) ?></div>    
+                        <div class="invalid-feedback"><?= $cpassErr ?? null ?></div>    
+                        
+                    </div>
                 <input type="submit" value="Submit" name="save" class="btn btn-primary medium">
             </form>
         </div>
