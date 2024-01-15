@@ -134,11 +134,11 @@
                         <label class="form-check-label">Gender : </label>
                     </div>
                     <div for="" class="form-check form-check-inline">
-                        <input type="radio" value="Male" id="male" name="gender" class="form-check-input" <?= isset($gender) && $gender == "male" ? 'checked':null ?> >
+                        <input type="radio" value="Male" id="male" name="gender" class="form-check-input" <?= isset($gender) && $gender == "Male" ? 'checked': null ?> >
                         <label for="male" class="form-check-label">Male</label>
                     </div>
                     <div for="" class="form-check form-check-inline">
-                        <input type="radio" value="Female" id="female" name="gender" class="form-check-input" <?= isset($gender) && $gender == "female" ? 'checked':null ?>>
+                        <input type="radio" value="Female" id="female" name="gender" class="form-check-input" <?= isset($gender) && $gender == "Female" ? 'checked': null ?>>
                         <label for="female" class="form-check-label">Female</label>
                     </div>                    
                     
@@ -190,10 +190,10 @@
                         <select id="" name="country" class="form-select-sm">
                             <option value="">--Select Country</option>
                             <option value="Bangladesh" <?= isset($crcountry) && $crcountry == 'Bangladesh' ? 'selected' : null ?>>Bangladesh</option>
-                            <option value="India" <?= isset($crcountry) && $crcountry == 'India' ? : null ?> >India</option>
-                            <option value="Nepal" <?= isset($crcountry) && $crcountry == 'Nepal' ? : null ?>>Nepal</option>
-                            <option value="Bhutan" <?= isset($crcountry) && $crcountry == 'Bhutan' ? : null ?>>Bhutan</option>
-                            <option value="Thailand" <?= isset($crcountry) && $crcountry == 'Thailand' ? : null ?>>Thaniland</option>
+                            <option value="India" <?= isset($crcountry) && $crcountry == 'India' ? 'selected' : null ?> >India</option>
+                            <option value="Nepal" <?= isset($crcountry) && $crcountry == 'Nepal' ? 'selected' : null ?>>Nepal</option>
+                            <option value="Bhutan" <?= isset($crcountry) && $crcountry == 'Bhutan' ? 'selected' : null ?>>Bhutan</option>
+                            <option value="Thailand" <?= isset($crcountry) && $crcountry == 'Thailand' ? 'selected' : null ?>>Thaniland</option>
                         </select> 
                     </div>
                     <div class="mb-3 <?= isset($countryErr) ? 'text-danger' : (isset($country) ? 'text-success' : null) ?>">
@@ -207,23 +207,54 @@
                             <?= $fileNameErr ?? null ?><?= $fileUploadSucc ?? null ?>
                     </div>  
                     <div class="form-floating MB-3  <?= isset($passErr) ? 'border-danger' : (isset($pass) ? 'border-scccess' : null) ?>">
-                        <input type="password" name="pass" placeholder="Password" class="form-control <?= isset($passErr) ? 'is-invalid' : (isset($pass) ? 'is-valid' : null) ?>">
+                        <input type="password" name="pass" id="pass" placeholder="Password" class="form-control <?= isset($passErr) ? 'is-invalid' : (isset($pass) ? 'is-valid' : null) ?>">
                         <label for="">Password: </label>
                         <div class="invalid-feedback"><?= $passErr ?></div>
-                        <div class="valid-feedback"><?= password_hash($crPass, PASSWORD_BCRYPT) ?></div>                        
+                        <div class="valid-feedback"><?= password_hash($crPass, PASSWORD_BCRYPT) ?></div>
+                        <input type="checkbox" id="sp"> Show Password<br><br>
+
                     </div> 
                     <div class="md-3 form-floating">
-                        <input type="password" name="cpass" placeholder="Confirm Password" class="form-control <?= isset($cpassErr) ? 'is-invalid' : (isset($crCpass) ? 'is-valid' : null) ?>">
+                        <input type="password" name="cpass" id="cpass" placeholder="Confirm Password" class="form-control <?= isset($cpassErr) ? 'is-invalid' : (isset($crCpass) ? 'is-valid' : null) ?>">
                         <label for="">Confirm Password</label>
                         <div class="valid-feedback"><?= password_hash($crCpass, PASSWORD_BCRYPT) ?></div>    
                         <div class="invalid-feedback"><?= $cpassErr ?? null ?></div>    
-                        
+                        <input type="checkbox" id="csp"> Show Password<br><br>
                     </div>
                 <input type="submit" value="Submit" name="save" class="btn btn-primary medium">
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    const sp = document.getElementById('sp');
+    const pass = document.getElementById('pass');
+    
+    const csp = document.getElementById('csp');
+    const cpass = document.getElementById('cpass');
+
+    sp.addEventListener( 'click', () =>
+{
+    if (sp.checked){
+        pass.setAttribute('type', 'text');
+    } else {
+        pass.setAttribute('type', 'password');
+    }
+}
+    );  
+    
+    csp.addEventListener( 'click', () =>
+{
+    if (csp.checked){
+        cpass.setAttribute('type', 'text');
+    } else {
+        cpass.setAttribute('type', 'password');
+    }
+}
+    );
+
+ </script>   
 
 
 
